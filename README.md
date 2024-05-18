@@ -1,5 +1,5 @@
 <div style="text-align: center;">
-  <h1>RVC DAATASET MAKER WEBUI</h1>
+  <h1>RVC DATASET MAKER WEBUI</h1>
   <p>This project provides a web interface for creating datasets for RVC (RVC Dataset Maker) using Gradio.</p>
 </div>
 

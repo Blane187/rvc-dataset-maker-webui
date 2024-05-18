@@ -35,4 +35,4 @@
 ## License
 This project is licensed under the Apache-2.0 License.
 
-For more details, visit the [GitHub repository](https://github.com/Blane187/rvc-dataset-maker-webui).
+For more details, visit the [GitHub license]([https://github.com/Blane187/rvc-dataset-maker-webui](https://github.com/Blane187/rvc-dataset-maker-webui#)).

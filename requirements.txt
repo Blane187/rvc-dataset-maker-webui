@@ -1,0 +1,6 @@
+gradio
+yt-dlp
+ffmpeg-python
+numpy
+librosa
+soundfile

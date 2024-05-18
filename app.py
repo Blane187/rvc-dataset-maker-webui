@@ -5,6 +5,7 @@ import librosa
 import soundfile as sf
 import os
 
+
 # Function to download audio from YouTube
 def download_audio(url, audio_name):
     ydl_opts = {
@@ -19,6 +20,7 @@ def download_audio(url, audio_name):
     }
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         ydl.download([url])
+
 
 # RMS function from librosa
 def get_rms(y, frame_length=2048, hop_length=512, pad_mode="constant"):
@@ -37,6 +39,7 @@ def get_rms(y, frame_length=2048, hop_length=512, pad_mode="constant"):
     x = xw[tuple(slices)]
     power = np.mean(np.abs(x) ** 2, axis=-2, keepdims=True)
     return np.sqrt(power)
+
 
 # Slicer class to split audio
 class Slicer:
@@ -174,6 +177,7 @@ class Slicer:
                 )
             return chunks
 
+
 def process_audio(dataset, url, drive_path, audio_name):
     if dataset == "Youtube":
         download_audio(url, audio_name)
@@ -197,6 +201,7 @@ def process_audio(dataset, url, drive_path, audio_name):
             chunk = chunk.T
         sf.write(f"dataset/{audio_name}/split_{i}.wav", chunk, sr)
     return f"Processing complete for {audio_name}"
+
 
 with gr.Blocks() as demo:
     with gr.Column():

@@ -1,6 +1,5 @@
 import gradio as gr
-
-# from __future__ import unicode_literals
+from __future__ import unicode_literals
 import yt_dlp
 import ffmpeg
 import subprocess
@@ -25,20 +24,6 @@ def download_audio(url, audio_name):
         ydl.download([url])
 
 
-# Function to separate vocals using demucs
-def separate_vocals(audio_path, audio_name):
-    command = f"demucs --two-stems=vocals {audio_path}"
-    result = subprocess.run(command.split(), stdout=subprocess.PIPE)
-    print(result.stdout.decode())
-    subprocess.run(f"!mkdir -p /content/audio/{audio_name}", shell=True)
-    subprocess.run(
-        f"!cp -r /content/separated/htdemucs/{audio_name}/* /content/audio/{audio_name}",
-        shell=True,
-    )
-    subprocess.run(
-        f"!cp -r /content/youtubeaudio/{audio_name}.wav /content/audio/{audio_name}",
-        shell=True,
-    )
 
 
 # RMS function from librosa
@@ -197,24 +182,9 @@ class Slicer:
             return chunks
 
 
-def process_audio(mode, dataset, url, drive_path, audio_name):
-    if dataset == "Drive":
-        print("Dataset is set to Drive. Skipping this section")
-    elif dataset == "Youtube":
-        download_audio(url, audio_name)
-
-    audio_input = f"/content/youtubeaudio/{audio_name}.wav"
-
-    if dataset == "Drive":
-        command = f"demucs --two-stems=vocals {drive_path}"
-    elif dataset == "Youtube":
-        command = f"demucs --two-stems=vocals {audio_input}"
-
-    subprocess.run(command.split(), stdout=subprocess.PIPE)
-
     if mode == "Splitting":
         audio, sr = librosa.load(
-            f"/content/separated/htdemucs/{audio_name}/vocals.wav", sr=None, mono=False
+            f"youtubeaudio/{audio_name}.wav", sr=None, mono=False
         )
         slicer = Slicer(
             sr=sr,
@@ -228,16 +198,18 @@ def process_audio(mode, dataset, url, drive_path, audio_name):
         for i, chunk in enumerate(chunks):
             if len(chunk.shape) > 1:
                 chunk = chunk.T
-            soundfile.write(f"/content/dataset/{audio_name}/split_{i}.wav", chunk, sr)
+            soundfile.write(f"dataset/{audio_name}/split_{i}.wav", chunk, sr)
 
     return f"Processing complete for {audio_name}"
 
 
 with gr.Blocks() as demo:
     with gr.Column():
-        gr.Markdown("# Dataset Maker")
+        gr.Markdown("<h1 style='text-align: center;'>RVC Dataset Maker</h1>")
+        gr.Markdown("# be notice this is only work for audio no noises or instrumental, i hope you understand :)")
         mode = gr.Dropdown(choices=["Splitting", "Separate"], label="Mode")
         dataset = gr.Dropdown(choices=["Youtube", "Drive"], label="Dataset")
+        with gr.Row():
         url = gr.Textbox(label="URL")
         drive_path = gr.Textbox(label="Drive Path")
         audio_name = gr.Textbox(label="Audio Name")

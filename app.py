@@ -206,20 +206,19 @@ class Slicer:
 with gr.Blocks() as demo:
     with gr.Column():
         gr.Markdown("<h1 style='text-align: center;'>RVC Dataset Maker</h1>")
-        gr.Markdown("# be notice this is only work for audio no noises or instrumental, i hope you understand :)")
+        gr.Markdown("# `be notice` this is only work for audio no noises or instrumental, i hope you understand :)")
         mode = gr.Dropdown(choices=["Splitting", "Separate"], label="Mode")
         dataset = gr.Dropdown(choices=["Youtube", "Drive"], label="Dataset")
         with gr.Row():
-        url = gr.Textbox(label="URL")
-        drive_path = gr.Textbox(label="Drive Path")
-        audio_name = gr.Textbox(label="Audio Name")
-        output = gr.Textbox(label="Output")
-        process_button = gr.Button("Process")
+            url = gr.Textbox(label="URL")
+            drive_path = gr.Textbox(label="Drive Path")
+            audio_name = gr.Textbox(label="Audio Name")
+            output = gr.Textbox(label="Output")
+            process_button = gr.Button("Process")
+            process_button.click(
+                process_audio,
+                inputs=[mode, dataset, url, drive_path, audio_name],
+                outputs=[output]
+            )
 
-    process_button.click(
-        process_audio,
-        inputs=[mode, dataset, url, drive_path, audio_name],
-        outputs=[output],
-    )
-
-demo.launch(share=True)
+demo.launch(share=True,debug=True)

@@ -15,7 +15,7 @@ def download_audio(url, audio_name):
                 "preferredcodec": "wav",
             }
         ],
-        "outtmpl": f"youtubeaudio/{audio_name}.wav",
+        "outtmpl": f"youtubeaudio/{audio_name}",
     }
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         ydl.download([url])
@@ -202,12 +202,13 @@ with gr.Blocks() as demo:
     with gr.Column():
         gr.Markdown("<h1 style='text-align: center;'>RVC Dataset Maker</h1>")
         gr.Markdown(
-            "# `be notice` this is only work for audio no noises or instrumental, i hope you understand :)"
+            "be notice this is only work for audio no noises or instrumental, i hope you understand :)"
         )
         dataset = gr.Dropdown(choices=["Youtube", "Drive"], label="Dataset")
         with gr.Row():
             url = gr.Textbox(label="URL")
             drive_path = gr.Textbox(label="Drive Path")
+        with gr.Row():
             audio_name = gr.Textbox(label="Audio Name")
             output = gr.Textbox(label="Output")
             process_button = gr.Button("Process")

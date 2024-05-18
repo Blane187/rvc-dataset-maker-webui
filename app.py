@@ -1,5 +1,4 @@
 import gradio as gr
-from __future__ import unicode_literals
 import yt_dlp
 import ffmpeg
 import subprocess

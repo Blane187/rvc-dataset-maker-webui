@@ -1,11 +1,9 @@
 import gradio as gr
 import yt_dlp
-import ffmpeg
-import subprocess
 import numpy as np
 import librosa
-import soundfile
-
+import soundfile as sf
+import os
 
 # Function to download audio from YouTube
 def download_audio(url, audio_name):
@@ -17,11 +15,10 @@ def download_audio(url, audio_name):
                 "preferredcodec": "wav",
             }
         ],
-        "outtmpl": f"youtubeaudio/{audio_name}",
+        "outtmpl": f"youtubeaudio/{audio_name}.wav",
     }
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         ydl.download([url])
-
 
 # RMS function from librosa
 def get_rms(y, frame_length=2048, hop_length=512, pad_mode="constant"):
@@ -40,7 +37,6 @@ def get_rms(y, frame_length=2048, hop_length=512, pad_mode="constant"):
     x = xw[tuple(slices)]
     power = np.mean(np.abs(x) ** 2, axis=-2, keepdims=True)
     return np.sqrt(power)
-
 
 # Slicer class to split audio
 class Slicer:
@@ -177,24 +173,30 @@ class Slicer:
                     self._apply_slice(waveform, sil_tags[-1][1], total_frames)
                 )
             return chunks
-            
-            audio, sr = librosa.load(f"youtubeaudio/{audio_name}.wav", sr=None, mono=False)
-            slicer = Slicer(
-            sr=sr,
-            threshold=-40,
-            min_length=5000,
-            min_interval=500,
-            hop_size=10,
-            max_sil_kept=500,
-        )
-        chunks = slicer.slice(audio)
-        for i, chunk in enumerate(chunks):
-            if len(chunk.shape) > 1:
-                chunk = chunk.T
-            soundfile.write(f"dataset/{audio_name}/split_{i}.wav", chunk, sr)
-            )
-            return f"Processing complete for {audio_name}"
 
+def process_audio(dataset, url, drive_path, audio_name):
+    if dataset == "Youtube":
+        download_audio(url, audio_name)
+    elif dataset == "Drive":
+        # Assume drive_path is a local path for simplicity
+        os.rename(drive_path, f"youtubeaudio/{audio_name}.wav")
+
+    audio, sr = librosa.load(f"youtubeaudio/{audio_name}.wav", sr=None, mono=False)
+    slicer = Slicer(
+        sr=sr,
+        threshold=-40,
+        min_length=5000,
+        min_interval=500,
+        hop_size=10,
+        max_sil_kept=500,
+    )
+    chunks = slicer.slice(audio)
+    os.makedirs(f"dataset/{audio_name}", exist_ok=True)
+    for i, chunk in enumerate(chunks):
+        if len(chunk.shape) > 1:
+            chunk = chunk.T
+        sf.write(f"dataset/{audio_name}/split_{i}.wav", chunk, sr)
+    return f"Processing complete for {audio_name}"
 
 with gr.Blocks() as demo:
     with gr.Column():
@@ -211,7 +213,7 @@ with gr.Blocks() as demo:
             process_button = gr.Button("Process")
             process_button.click(
                 process_audio,
-                inputs=[mode, dataset, url, drive_path, audio_name],
+                inputs=[dataset, url, drive_path, audio_name],
                 outputs=[output],
             )
 

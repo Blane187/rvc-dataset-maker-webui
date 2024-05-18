@@ -177,10 +177,9 @@ class Slicer:
                     self._apply_slice(waveform, sil_tags[-1][1], total_frames)
                 )
             return chunks
-
-    if mode == "Splitting":
-        audio, sr = librosa.load(f"youtubeaudio/{audio_name}.wav", sr=None, mono=False)
-        slicer = Slicer(
+            
+            audio, sr = librosa.load(f"youtubeaudio/{audio_name}.wav", sr=None, mono=False)
+            slicer = Slicer(
             sr=sr,
             threshold=-40,
             min_length=5000,
@@ -203,7 +202,6 @@ with gr.Blocks() as demo:
         gr.Markdown(
             "# `be notice` this is only work for audio no noises or instrumental, i hope you understand :)"
         )
-        mode = gr.Dropdown(choices=["Splitting", "Separate"], label="Mode")
         dataset = gr.Dropdown(choices=["Youtube", "Drive"], label="Dataset")
         with gr.Row():
             url = gr.Textbox(label="URL")

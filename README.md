@@ -1,4 +1,5 @@
-<div class="title">RVC DATASET MAKER WEBUI</div>
+<h1 style='text-align: center;'>RVC Dataset Maker</h1>
+
 
 ## Overview
 This project provides a web interface for creating datasets for RVC (RVC Dataset Maker) using Gradio. 

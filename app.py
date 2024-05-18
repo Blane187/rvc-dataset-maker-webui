@@ -24,8 +24,6 @@ def download_audio(url, audio_name):
         ydl.download([url])
 
 
-
-
 # RMS function from librosa
 def get_rms(y, frame_length=2048, hop_length=512, pad_mode="constant"):
     padding = (int(frame_length // 2), int(frame_length // 2))
@@ -181,11 +179,8 @@ class Slicer:
                 )
             return chunks
 
-
     if mode == "Splitting":
-        audio, sr = librosa.load(
-            f"youtubeaudio/{audio_name}.wav", sr=None, mono=False
-        )
+        audio, sr = librosa.load(f"youtubeaudio/{audio_name}.wav", sr=None, mono=False)
         slicer = Slicer(
             sr=sr,
             threshold=-40,
@@ -206,7 +201,9 @@ class Slicer:
 with gr.Blocks() as demo:
     with gr.Column():
         gr.Markdown("<h1 style='text-align: center;'>RVC Dataset Maker</h1>")
-        gr.Markdown("# `be notice` this is only work for audio no noises or instrumental, i hope you understand :)")
+        gr.Markdown(
+            "# `be notice` this is only work for audio no noises or instrumental, i hope you understand :)"
+        )
         mode = gr.Dropdown(choices=["Splitting", "Separate"], label="Mode")
         dataset = gr.Dropdown(choices=["Youtube", "Drive"], label="Dataset")
         with gr.Row():
@@ -218,7 +215,7 @@ with gr.Blocks() as demo:
             process_button.click(
                 process_audio,
                 inputs=[mode, dataset, url, drive_path, audio_name],
-                outputs=[output]
+                outputs=[output],
             )
 
-demo.launch(share=True,debug=True)
+demo.launch(share=True, debug=True)

@@ -212,11 +212,14 @@ with gr.Blocks() as demo:
         dataset = gr.Dropdown(choices=["Youtube", "Drive"], label="Dataset")
         with gr.Row():
             url = gr.Textbox(label="URL")
+        with gr.Row():
             drive_path = gr.Textbox(label="Drive Path")
         with gr.Column():
             with gr.Row():
                 audio_name = gr.Textbox(label="Audio Name")
+            with gr.Row():
                 output = gr.Textbox(label="Output")
+            with gr.Row():
                 process_button = gr.Button("Process")
                 process_button.click(
                     process_audio,

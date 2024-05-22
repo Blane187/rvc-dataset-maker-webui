@@ -33,6 +33,6 @@
 2. Open your web browser and go to the provided local server address.
 
 ## License
-This project is licensed under the Apache-2.0 License.
+This project is licensed under the `RDMWL`.
 
 For more details, visit the [GitHub license](https://github.com/Blane187/rvc-dataset-maker-webui?tab=Apache-2.0-1-ov-file).

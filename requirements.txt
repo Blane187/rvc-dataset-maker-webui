@@ -1,6 +1,8 @@
-gradio
-yt-dlp
-ffmpeg-python
-numpy
-librosa
-soundfile
+gradio==3.14.0
+yt-dlp==2021.12.1
+ffmpeg-python==0.2.0
+numpy==1.21.2
+librosa==0.8.1
+soundfile==0.10.3.post1
+demucs==3.0.6
+

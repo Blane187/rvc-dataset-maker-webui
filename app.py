@@ -282,4 +282,4 @@ with gr.Blocks(title="RVCDMFGC") as demo:
         process, inputs=[dataset, mode, url, drive_path, audio_name], outputs=output
     )
 
-demo.launch(share=True,debug=True)
+demo.launch(share=True, debug=True)

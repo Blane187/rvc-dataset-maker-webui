@@ -32,6 +32,3 @@ This license establishes the terms under which the RVC Dataset Maker WebUI ("Sof
 
 **End of License**
 
----
-
-This custom license template can be modified further to suit specific needs or preferences. Make sure to consult with a legal professional to ensure that the license meets all legal requirements.

@@ -1,8 +1,8 @@
-gradio==3.14.0
-yt-dlp
-ffmpeg-python
+gradio
+yt_dlp
 numpy
 librosa
 soundfile
-demucs
-
+ffmpeg-python
+tkinter
+threading

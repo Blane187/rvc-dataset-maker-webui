@@ -30,6 +30,12 @@
    ```sh
    python app.py
    ```
+
+1-alt: or run this
+   ```sh
+   python gui.py
+   ````
+
 2. Open your web browser and go to the provided local server address.
 
 ## License
